@@ -1,4 +1,5 @@
 import random
+import math
 
 # Classe représentant une instance du problème MIN-MAKESPAN
 class Instance:
@@ -115,35 +116,62 @@ def main():
 
     elif choixMode == 2 :
         print()
-        m = int(input("Veuillez entrer le nombre de machines m : "))
-        n = int(input("Veuillez entrer le nombre de tâches n : "))
-        k = int(input("Veuillez entrer le nombre d'instances k : "))
-        dmin = int(input("Veuillez entrer la durée minimum d'une tâche : "))
-        dmax = int(input("Veuillez entrer le durée maximum d'une tâche : "))
-
-        ratioLSA = 0
-        ratioLPT = 0
-        ratioRMA = 0
+        # m = int(input("Veuillez entrer le nombre de machines m : "))
+        # n = int(input("Veuillez entrer le nombre de tâches n : "))
+        # k = int(input("Veuillez entrer le nombre d'instances k : "))
+        # dmin = int(input("Veuillez entrer la durée minimum d'une tâche : "))
+        # dmax = int(input("Veuillez entrer le durée maximum d'une tâche : "))
+        file  = open("output.txt", "w")
+        file.write("m\tn\tk\tdmin\tdmax\tratio moyen LSA\tratio moyen LPT\tratio moyen RMA\n")
+        for m in range(5, 30, 5):
+            print("machine no :", m)
+            for n in range(m*3, m*3+60, 10):
+                k = m*2
+                dmin = math.ceil(m/4)
+                dmax = m*2
+                print("nb tasks :", n)
+                print("k =", k)
+                print("dmin :",dmin)
+                print("dmax :",dmax)
+                file.write(str(m))
+                file.write("\t")
+                file.write(str(n))
+                file.write("\t")
+                file.write(str(k))
+                file.write("\t")
+                file.write(str(dmin))
+                file.write("\t")
+                file.write(str(dmax))
+                file.write("\t")
         
-        for i in range(k) :
-            print("instance", i)
-            instance = newIr(m, n, dmin, dmax)
-            bMax = borneInfMax(instance)
-            bMoy = borneInfMoy(instance)
-            B = max(bMax, bMoy)
-            ratioLSA += (LSA(instance)/B)/k
-            ratioLPT += (LPT(instance)/B)/k
-            ratioRMA += (RMA(instance)/B)/k
+                ratioLSA = 0
+                ratioLPT = 0
+                ratioRMA = 0
+                
+                for i in range(k) :
+                    print("instance", i)
+                    instance = newIr(m, n, dmin, dmax)
+                    bMax = borneInfMax(instance)
+                    bMoy = borneInfMoy(instance)
+                    B = max(bMax, bMoy)
+                    ratioLSA += (LSA(instance)/B)/k
+                    ratioLPT += (LPT(instance)/B)/k
+                    ratioRMA += (RMA(instance)/B)/k
 
 
-        print()
-        print("Résultats : ")
-        print("ratio moyen LSA = ", ratioLSA)
-        print("ratio moyen LPT = ", ratioLPT)
-        print("ratio moyen RMA = ", ratioRMA)
-        
+                file.write(str(ratioLSA))
+                file.write("\t")
+                file.write(str(ratioLPT))
+                file.write("\t")
+                file.write(str(ratioRMA))
+                file.write("\n")
+                # print()
+                # print("Résultats : ")
+                # print("ratio moyen LSA = ", ratioLSA)
+                # print("ratio moyen LPT = ", ratioLPT)
+                # print("ratio moyen RMA = ", ratioRMA)
+        file.close()
     else :
         print("Veuillez choisir uniquement 1 ou 2")
-        quit()
 
 main()
