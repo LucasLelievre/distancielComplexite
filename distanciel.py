@@ -52,7 +52,7 @@ def newIp(p):
     
     # nombre de machines
     machines = p*2
-    print(machines, " machines")
+    #print(machines, " machines")
 
     # liste des tâches
     tasks = []
@@ -64,19 +64,19 @@ def newIp(p):
         tasks.append(2)
     # 1 tâche de durée 2p
     tasks.append(2*p)
-    print((2*(p*p) + 2*p + 1), "tâches : ", tasks)
+    #print((2*(p*p) + 2*p + 1), "tâches : ", tasks)
 
     # retourne une instance
     return Instance(machines, tasks)
 
 # Créer une instance de type Ir
 def newIr(m, n, dmin, dmax):
-    print(m, "machines")
+    #print(m, "machines")
     # liste des tâches
     tasks = []
     for i in range(n) :
         tasks.append(random.randrange(dmin, dmax))
-    print(n, "tâches :", tasks)
+    #print(n, "tâches :", tasks)
 
     return Instance(m, tasks)
 
@@ -127,7 +127,7 @@ def main():
         ratioRMA = 0
         
         for i in range(k) :
-            print("instance", i)
+            #print("instance", i)
             instance = newIr(m, n, dmin, dmax)
             bMax = borneInfMax(instance)
             bMoy = borneInfMoy(instance)
@@ -143,93 +143,94 @@ def main():
         print("ratio moyen LPT = ", ratioLPT)
         print("ratio moyen RMA = ", ratioRMA)
     
-    elif choixMode == 3 :
-        print("générer quel batterie de tests ?")
-        print("1: LSA, 2: LPT, 3:RMA, 4:Ir")
-        choixMode = int(input())
+    # Code pour campagne des batteries de tests
+    # elif choixMode == 3 :
+    #     print("générer quelle campagne de tests ?")
+    #     print("1: LSA, 2: LPT, 3:RMA, 4:Ir")
+    #     choixMode = int(input("votre choix : "))
 
-        p_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100, 100, 120, 140, 160, 180, 200, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000]
-        file  = open("output.txt", "w")
+    #     p_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100, 100, 120, 140, 160, 180, 200, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000]
+    #     file  = open("output.txt", "w")
 
-        if choixMode == 1 :
-            file.write("p\tratio LSA\n")
-            for i in p_list :
-                file.write(i)
-                file.write("\t")
+    #     if choixMode == 1 :
+    #         file.write("p\tratio LSA\n")
+    #         for i in p_list :
+    #             file.write(str(i))
+    #             file.write("\t")
 
-                instance = newIp(i)
-                bMax = borneInfMax(instance)
-                bMoy = borneInfMoy(instance)
-                B = max(bMax, bMoy)
-                res = LSA(instance)/B
+    #             instance = newIp(i)
+    #             bMax = borneInfMax(instance)
+    #             bMoy = borneInfMoy(instance)
+    #             B = max(bMax, bMoy)
+    #             res = LSA(instance)/B
 
-                file.write(res)
-                file.write("\n")
-        if choixMode == 2 :
-            file.write("p\tratio LPT\n")
-            for i in p_list :
-                file.write(i)
-                file.write("\t")
+    #             file.write(str(res))
+    #             file.write("\n")
+    #     if choixMode == 2 :
+    #         file.write("p\tratio LPT\n")
+    #         for i in p_list :
+    #             file.write(str(i))
+    #             file.write("\t")
 
-                instance = newIp(i)
-                bMax = borneInfMax(instance)
-                bMoy = borneInfMoy(instance)
-                B = max(bMax, bMoy)
-                res = LPT(instance)/B
+    #             instance = newIp(i)
+    #             bMax = borneInfMax(instance)
+    #             bMoy = borneInfMoy(instance)
+    #             B = max(bMax, bMoy)
+    #             res = LPT(instance)/B
 
-                file.write(res)
-                file.write("\n")
+    #             file.write(str(res))
+    #             file.write("\n")
 
-        if choixMode == 3 :
-            file.write("p\tratio RMA\n")
-            for i in p_list :
-                file.write(i)
-                file.write("\t")
+    #     if choixMode == 3 :
+    #         file.write("p\tratio RMA\n")
+    #         for i in p_list :
+    #             file.write(str(i))
+    #             file.write("\t")
 
-                instance = newIp(i)
-                bMax = borneInfMax(instance)
-                bMoy = borneInfMoy(instance)
-                B = max(bMax, bMoy)
-                res = RMA(instance)/B
+    #             instance = newIp(i)
+    #             bMax = borneInfMax(instance)
+    #             bMoy = borneInfMoy(instance)
+    #             B = max(bMax, bMoy)
+    #             res = RMA(instance)/B
 
-                file.write(res)
-                file.write("\n")
+    #             file.write(str(res))
+    #             file.write("\n")
 
-        if choixMode == 4 :
-            file.write("m\tn\tk\tdmin\tdmax\tratio moyen LSA\tratio moyen LPT\tratio moyen RMA\n")
-            for m in range(5, 30, 5):
-                for n in range(m*3, m*3+60, 10):
-                    k = m*2
-                    dmin = math.ceil(m/4)
-                    dmax = m*2
-                    file.write(str(m))
-                    file.write("\t")
-                    file.write(str(n))
-                    file.write("\t")
-                    file.write(str(k))
-                    file.write("\t")
-                    file.write(str(dmin))
-                    file.write("\t")
-                    file.write(str(dmax))
-                    file.write("\t")
-                    ratioLSA = 0
-                    ratioLPT = 0
-                    ratioRMA = 0
-                    for i in range(k) :
-                        instance = newIr(m, n, dmin, dmax)
-                        bMax = borneInfMax(instance)
-                        bMoy = borneInfMoy(instance)
-                        B = max(bMax, bMoy)
-                        ratioLSA += (LSA(instance)/B)/k
-                        ratioLPT += (LPT(instance)/B)/k
-                        ratioRMA += (RMA(instance)/B)/k
-                    file.write(str(ratioLSA))
-                    file.write("\t")
-                    file.write(str(ratioLPT))
-                    file.write("\t")
-                    file.write(str(ratioRMA))
-                    file.write("\n")
-        file.close()
+    #     if choixMode == 4 :
+    #         file.write("m\tn\tk\tdmin\tdmax\tratio moyen LSA\tratio moyen LPT\tratio moyen RMA\n")
+    #         for m in range(5, 30, 5):
+    #             for n in range(m*3, m*3+60, 10):
+    #                 k = m*2
+    #                 dmin = math.ceil(m/4)
+    #                 dmax = m*2
+    #                 file.write(str(m))
+    #                 file.write("\t")
+    #                 file.write(str(n))
+    #                 file.write("\t")
+    #                 file.write(str(k))
+    #                 file.write("\t")
+    #                 file.write(str(dmin))
+    #                 file.write("\t")
+    #                 file.write(str(dmax))
+    #                 file.write("\t")
+    #                 ratioLSA = 0
+    #                 ratioLPT = 0
+    #                 ratioRMA = 0
+    #                 for i in range(k) :
+    #                     instance = newIr(m, n, dmin, dmax)
+    #                     bMax = borneInfMax(instance)
+    #                     bMoy = borneInfMoy(instance)
+    #                     B = max(bMax, bMoy)
+    #                     ratioLSA += (LSA(instance)/B)/k
+    #                     ratioLPT += (LPT(instance)/B)/k
+    #                     ratioRMA += (RMA(instance)/B)/k
+    #                 file.write(str(ratioLSA))
+    #                 file.write("\t")
+    #                 file.write(str(ratioLPT))
+    #                 file.write("\t")
+    #                 file.write(str(ratioRMA))
+    #                 file.write("\n")
+    #     file.close()
     else :
         print("Veuillez choisir uniquement 1 ou 2")
 
