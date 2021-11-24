@@ -229,8 +229,8 @@ def main():
                     file.write("\t")
                     file.write(str(ratioRMA))
                     file.write("\n")
+        file.close()
     else :
         print("Veuillez choisir uniquement 1 ou 2")
-        quit()
 
 main()
