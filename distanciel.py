@@ -1,4 +1,5 @@
 import random
+import math
 
 # Classe représentant une instance du problème MIN-MAKESPAN
 class Instance:
@@ -141,7 +142,93 @@ def main():
         print("ratio moyen LSA = ", ratioLSA)
         print("ratio moyen LPT = ", ratioLPT)
         print("ratio moyen RMA = ", ratioRMA)
-        
+    
+    elif choixMode == 3 :
+        print("générer quel batterie de tests ?")
+        print("1: LSA, 2: LPT, 3:RMA, 4:Ir")
+        choixMode = int(input())
+
+        p_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100, 100, 120, 140, 160, 180, 200, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000]
+        file  = open("output.txt", "w")
+
+        if choixMode == 1 :
+            file.write("p\tratio LSA\n")
+            for i in p_list :
+                file.write(i)
+                file.write("\t")
+
+                instance = newIp(i)
+                bMax = borneInfMax(instance)
+                bMoy = borneInfMoy(instance)
+                B = max(bMax, bMoy)
+                res = LSA(instance)/B
+
+                file.write(res)
+                file.write("\n")
+        if choixMode == 2 :
+            file.write("p\tratio LPT\n")
+            for i in p_list :
+                file.write(i)
+                file.write("\t")
+
+                instance = newIp(i)
+                bMax = borneInfMax(instance)
+                bMoy = borneInfMoy(instance)
+                B = max(bMax, bMoy)
+                res = LPT(instance)/B
+
+                file.write(res)
+                file.write("\n")
+
+        if choixMode == 3 :
+            file.write("p\tratio RMA\n")
+            for i in p_list :
+                file.write(i)
+                file.write("\t")
+
+                instance = newIp(i)
+                bMax = borneInfMax(instance)
+                bMoy = borneInfMoy(instance)
+                B = max(bMax, bMoy)
+                res = RMA(instance)/B
+
+                file.write(res)
+                file.write("\n")
+
+        if choixMode == 4 :
+            file.write("m\tn\tk\tdmin\tdmax\tratio moyen LSA\tratio moyen LPT\tratio moyen RMA\n")
+            for m in range(5, 30, 5):
+                for n in range(m*3, m*3+60, 10):
+                    k = m*2
+                    dmin = math.ceil(m/4)
+                    dmax = m*2
+                    file.write(str(m))
+                    file.write("\t")
+                    file.write(str(n))
+                    file.write("\t")
+                    file.write(str(k))
+                    file.write("\t")
+                    file.write(str(dmin))
+                    file.write("\t")
+                    file.write(str(dmax))
+                    file.write("\t")
+                    ratioLSA = 0
+                    ratioLPT = 0
+                    ratioRMA = 0
+                    for i in range(k) :
+                        instance = newIr(m, n, dmin, dmax)
+                        bMax = borneInfMax(instance)
+                        bMoy = borneInfMoy(instance)
+                        B = max(bMax, bMoy)
+                        ratioLSA += (LSA(instance)/B)/k
+                        ratioLPT += (LPT(instance)/B)/k
+                        ratioRMA += (RMA(instance)/B)/k
+                    file.write(str(ratioLSA))
+                    file.write("\t")
+                    file.write(str(ratioLPT))
+                    file.write("\t")
+                    file.write(str(ratioRMA))
+                    file.write("\n")
     else :
         print("Veuillez choisir uniquement 1 ou 2")
         quit()
